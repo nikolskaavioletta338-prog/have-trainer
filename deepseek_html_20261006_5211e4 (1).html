@@ -1,0 +1,2229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>🎓 have / has / had / will have — тренажёр</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f0f7ff;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    body.dark {
+      background: #1a1e2c;
+      color: #e0e0e0;
+    }
+
+    .app {
+      max-width: 1100px;
+      width: 100%;
+      background: white;
+      border-radius: 36px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      padding: 20px 20px 30px;
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    body.dark .app {
+      background: #252b3d;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Тёмная тема для элементов */
+    body.dark .card,
+    body.dark .theory-block,
+    body.dark .table-wrap,
+    body.dark .flip-card,
+    body.dark .task-card,
+    body.dark .result-card {
+      background: #2f364a;
+      color: #eee;
+      border-color: #4a526b;
+    }
+
+    body.dark .theory-block th {
+      background: #3d455e;
+      color: #fff;
+    }
+
+    body.dark .theory-block td {
+      border-color: #4a526b;
+    }
+
+    body.dark .flip-card .back {
+      background: #3d455e;
+    }
+
+    body.dark input,
+    body.dark .drop-zone,
+    body.dark .word-chip {
+      background: #2a3145;
+      color: #eee;
+      border-color: #5a627b;
+    }
+
+    body.dark .chip {
+      background: #2a3145;
+      border-color: #5a627b;
+      color: #ddd;
+    }
+
+    body.dark .chip.selected {
+      background: #3b5b8c;
+    }
+
+    body.dark .important {
+      background: #3a2e1a;
+      border-left-color: #ffb347;
+      color: #ffd966;
+    }
+
+    /* Шапка */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tab-btn {
+      background: #eef3fc;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      transition: all 0.15s;
+      color: #1e2a3a;
+    }
+
+    body.dark .tab-btn {
+      background: #2f364a;
+      color: #ddd;
+    }
+
+    .tab-btn.active {
+      background: #4a7df0;
+      color: white;
+      box-shadow: 0 4px 12px rgba(74, 125, 240, 0.4);
+    }
+
+    .theme-toggle {
+      background: #f0f0f0;
+      border: none;
+      font-size: 1.8rem;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    body.dark .theme-toggle {
+      background: #3d455e;
+    }
+
+    /* Персонаж */
+    .owl-guide {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #e8f0fe;
+      border-radius: 30px;
+      padding: 8px 18px 8px 12px;
+      margin-bottom: 16px;
+      border: 2px dashed #a0c0ff;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: #1e3a6b;
+    }
+
+    body.dark .owl-guide {
+      background: #2b3448;
+      border-color: #5b6d99;
+      color: #bbd0ff;
+    }
+
+    .owl-guide span:first-child {
+      font-size: 2rem;
+    }
+
+    /* Экраны */
+    .screen {
+      display: none;
+      animation: fadeSlide 0.3s ease;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0.3;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Теория */
+    .theory-block {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      border: 1px solid #e9edf5;
+    }
+
+    .theory-block h3 {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.3rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 16px;
+      border: 1px solid #dde3ed;
+      margin: 10px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.98rem;
+    }
+
+    th {
+      background: #d9e5ff;
+      padding: 12px 8px;
+      font-weight: 600;
+      color: #1e3a6b;
+      text-align: left;
+    }
+
+    td {
+      padding: 10px 8px;
+      border-top: 1px solid #e2e8f2;
+    }
+
+    .clickable-row {
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .clickable-row:hover {
+      background: #f0f5ff;
+    }
+
+    body.dark .clickable-row:hover {
+      background: #3a425a;
+    }
+
+    .clickable-row.selected {
+      background: #d3e2ff !important;
+      outline: 2px solid #4a7df0;
+    }
+
+    body.dark .clickable-row.selected {
+      background: #3b5b8c !important;
+    }
+
+    .hint-popup {
+      background: #fef7e0;
+      border-left: 6px solid #f5b342;
+      padding: 12px 16px;
+      border-radius: 14px;
+      margin: 8px 0;
+      font-size: 0.98rem;
+      color: #5c3e00;
+      display: none;
+      animation: pop 0.2s;
+    }
+
+    body.dark .hint-popup {
+      background: #3a3322;
+      color: #ffd966;
+      border-left-color: #f5b342;
+    }
+
+    .hint-popup.show {
+      display: block;
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(0.95);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .toggle-group {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+      flex-wrap: wrap;
+    }
+
+    .toggle-btn {
+      background: #eef3fc;
+      border: 2px solid transparent;
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .toggle-btn.active {
+      background: #4a7df0;
+      color: white;
+      border-color: #2b5bc0;
+    }
+
+    .example-sentence {
+      font-style: italic;
+      color: #334;
+      background: #f4f8ff;
+      padding: 10px 14px;
+      border-radius: 14px;
+      margin: 8px 0;
+      cursor: pointer;
+      display: inline-block;
+      border-bottom: 2px dashed #a0b8e0;
+    }
+
+    body.dark .example-sentence {
+      background: #2b3448;
+      color: #ccd9ff;
+      border-bottom-color: #5b6d99;
+    }
+
+    .translation {
+      display: none;
+      color: #6b7a8f;
+      font-size: 0.95rem;
+      margin-top: 4px;
+      font-style: normal;
+    }
+
+    .translation.show {
+      display: block;
+    }
+
+    .important {
+      background: #fff6d9;
+      border-left: 8px solid #f5b342;
+      padding: 14px 18px;
+      border-radius: 14px;
+      margin: 16px 0;
+      font-weight: 500;
+    }
+
+    .incorrect-sentence {
+      color: #c0392b;
+      font-weight: 600;
+      font-size: 1.1rem;
+      background: #ffe6e5;
+      padding: 10px 14px;
+      border-radius: 14px;
+      margin: 8px 0;
+      display: inline-block;
+    }
+
+    body.dark .incorrect-sentence {
+      background: #4a2a2a;
+      color: #ff8a80;
+    }
+
+    .correct-sentence {
+      color: #1e7a44;
+      font-weight: 600;
+      background: #e0ffe8;
+      padding: 10px 14px;
+      border-radius: 14px;
+      display: none;
+      margin-top: 6px;
+    }
+
+    body.dark .correct-sentence {
+      background: #1e3a2a;
+      color: #8effa8;
+    }
+
+    .correct-sentence.show {
+      display: inline-block;
+    }
+
+    .mini-quiz {
+      background: #f0f7ff;
+      border-radius: 20px;
+      padding: 16px;
+      margin: 18px 0;
+      border: 1px solid #c8d9ff;
+    }
+
+    body.dark .mini-quiz {
+      background: #2b3448;
+      border-color: #4a5f8a;
+    }
+
+    .quiz-options {
+      display: flex;
+      gap: 12px;
+      margin: 12px 0;
+      flex-wrap: wrap;
+    }
+
+    .quiz-btn {
+      background: white;
+      border: 2px solid #b8c8e8;
+      padding: 8px 22px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    body.dark .quiz-btn {
+      background: #2f364a;
+      border-color: #5b6d99;
+      color: #ddd;
+    }
+
+    .quiz-btn.correct {
+      background: #c8f0d8;
+      border-color: #2e9e4a;
+    }
+
+    .quiz-btn.wrong {
+      background: #ffe0e0;
+      border-color: #e55;
+      animation: shake 0.3s;
+    }
+
+    @keyframes shake {
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-6px);
+      }
+
+      75% {
+        transform: translateX(6px);
+      }
+    }
+
+    .quiz-feedback {
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    /* Примеры — карточки */
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 16px 0 8px;
+    }
+
+    .filter-btn {
+      background: #eef3fc;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    body.dark .filter-btn {
+      background: #2f364a;
+      color: #ccc;
+    }
+
+    .filter-btn.active {
+      background: #4a7df0;
+      color: white;
+    }
+
+    .progress-bar-container {
+      height: 16px;
+      background: #dde3ed;
+      border-radius: 20px;
+      margin: 8px 0 16px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4a7df0, #6c9eff);
+      width: 0%;
+      transition: width 0.3s;
+      border-radius: 20px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    .flip-card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+      padding: 20px 16px;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      border: 2px solid #e9edf5;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+
+    .flip-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .flip-card .front {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #1e2a3a;
+    }
+
+    body.dark .flip-card .front {
+      color: #eee;
+    }
+
+    .flip-card .back {
+      display: none;
+      font-size: 0.95rem;
+      color: #4a5b7a;
+      background: #f4f8ff;
+      padding: 10px;
+      border-radius: 16px;
+      margin-top: 8px;
+    }
+
+    body.dark .flip-card .back {
+      background: #3d455e;
+      color: #ccd9ff;
+    }
+
+    .flip-card.flipped .front {
+      display: none;
+    }
+
+    .flip-card.flipped .back {
+      display: block;
+    }
+
+    .flip-card .check-badge {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 1.4rem;
+    }
+
+    /* Проверочная */
+    .test-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .task-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      border: 1px solid #e9edf5;
+    }
+
+    .task-title {
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .drag-words {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .drag-word {
+      background: #4a7df0;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: grab;
+      user-select: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      font-size: 1rem;
+      transition: 0.1s;
+    }
+
+    .drag-word:active {
+      cursor: grabbing;
+      opacity: 0.7;
+    }
+
+    .drop-zones {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .drop-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .drop-zone {
+      background: #f4f8ff;
+      border: 2px dashed #b8c8e8;
+      border-radius: 18px;
+      min-width: 110px;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      padding: 6px 14px;
+      color: #1e3a6b;
+      font-size: 1.05rem;
+    }
+
+    body.dark .drop-zone {
+      background: #2a3145;
+      border-color: #5b6d99;
+      color: #ccd9ff;
+    }
+
+    .drop-zone.filled {
+      background: #d3e2ff;
+      border-style: solid;
+      border-color: #4a7df0;
+    }
+
+    body.dark .drop-zone.filled {
+      background: #3b5b8c;
+      border-color: #6c9eff;
+    }
+
+    .chips-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      background: #eef3fc;
+      border: 2px solid #c8d9ff;
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      user-select: none;
+      transition: 0.1s;
+    }
+
+    body.dark .chip {
+      background: #2a3145;
+      border-color: #5b6d99;
+      color: #ddd;
+    }
+
+    .chip.selected {
+      background: #4a7df0;
+      color: white;
+      border-color: #2b5bc0;
+    }
+
+    .input-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    input[type="text"] {
+      padding: 10px 16px;
+      border-radius: 18px;
+      border: 2px solid #d0daea;
+      font-size: 1rem;
+      flex: 1;
+      min-width: 200px;
+      background: white;
+    }
+
+    body.dark input[type="text"] {
+      background: #2a3145;
+      border-color: #5b6d99;
+      color: #eee;
+    }
+
+    input.valid {
+      border-color: #2e9e4a;
+      background: #f2fff2;
+    }
+
+    input.invalid {
+      border-color: #e55;
+      background: #fff2f2;
+    }
+
+    .check-btn {
+      background: #4a7df0;
+      color: white;
+      border: none;
+      padding: 14px 40px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(74, 125, 240, 0.3);
+      transition: 0.2s;
+      margin: 20px 0;
+    }
+
+    .check-btn:disabled {
+      opacity: 0.5;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .check-btn:not(:disabled):hover {
+      background: #3b6ad0;
+      transform: scale(1.02);
+    }
+
+    .result-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      border: 1px solid #e9edf5;
+      text-align: center;
+    }
+
+    .big-score {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: #4a7df0;
+      margin: 10px 0;
+    }
+
+    .grade-circle {
+      display: inline-block;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #4a7df0;
+      color: white;
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 90px;
+      text-align: center;
+      margin: 10px auto;
+    }
+
+    .stats-table td {
+      padding: 8px;
+      border-bottom: 1px solid #e2e8f2;
+    }
+
+    .clickable-stat {
+      cursor: pointer;
+      background: #f9fbff;
+    }
+
+    .clickable-stat:hover {
+      background: #eef3fc;
+    }
+
+    .error-detail {
+      display: none;
+      background: #fff2f2;
+      padding: 10px;
+      border-radius: 12px;
+      margin-top: 6px;
+      font-size: 0.9rem;
+    }
+
+    .error-detail.show {
+      display: block;
+    }
+
+    .recommendation {
+      background: #f0f7ff;
+      border-radius: 18px;
+      padding: 16px;
+      margin: 10px 0;
+      text-align: left;
+      border-left: 8px solid #4a7df0;
+    }
+
+    .history-graph {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      align-items: flex-end;
+      height: 60px;
+      margin: 12px 0;
+    }
+
+    .history-bar {
+      width: 40px;
+      background: #4a7df0;
+      border-radius: 8px 8px 0 0;
+      min-height: 6px;
+      transition: height 0.5s;
+      position: relative;
+      text-align: center;
+      color: white;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    .btn {
+      background: #eef3fc;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      background: #4a7df0;
+      color: white;
+    }
+
+    /* Конфетти */
+    .confetti {
+      position: fixed;
+      top: -10px;
+      width: 10px;
+      height: 10px;
+      background: red;
+      opacity: 0.8;
+      pointer-events: none;
+      z-index: 9999;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* Адаптив */
+    @media (max-width: 600px) {
+      .tab-btn {
+        padding: 8px 14px;
+        font-size: 0.9rem;
+      }
+
+      .app {
+        padding: 14px;
+      }
+
+      .big-score {
+        font-size: 2.5rem;
+      }
+
+      .grade-circle {
+        width: 70px;
+        height: 70px;
+        line-height: 70px;
+        font-size: 2.2rem;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <!-- Шапка с вкладками -->
+    <div class="header">
+      <div class="tabs">
+        <button class="tab-btn active" data-screen="theory">📚 Теория</button>
+        <button class="tab-btn" data-screen="examples">💡 Примеры</button>
+        <button class="tab-btn" data-screen="test">✍️ Проверочная</button>
+        <button class="tab-btn" data-screen="result">🏆 Результат</button>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Сменить тему">🌙</button>
+    </div>
+
+    <!-- Персонаж -->
+    <div class="owl-guide" id="owlMessage">
+      <span>🦉</span>
+      <span id="owlText">Привет! Я совёнок. Давай учить have / has / had / will have!</span>
+    </div>
+
+    <!-- ЭКРАН ТЕОРИЯ -->
+    <div class="screen active" id="screen-theory">
+      <!-- 1.1 -->
+      <div class="theory-block">
+        <h3>1.1. Главная идея: у have есть ДВА лица 🎭</h3>
+        <p>В английском у <strong>have</strong> есть две формы в настоящем времени:</p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Подлежащее</th><th>Форма</th></tr>
+            <tr class="clickable-row" data-hint="I have a dog. — У меня есть собака."><td>I, you, we, they</td><td><strong>have</strong></td></tr>
+            <tr class="clickable-row" data-hint="He has a car. — У него есть машина."><td>he, she, it</td><td><strong>has</strong></td></tr>
+          </table>
+        </div>
+        <div class="hint-popup" id="hint1"></div>
+        <p style="margin-top:10px;">Это первое, что нужно запомнить. Всё остальное — производные.</p>
+      </div>
+
+      <!-- 1.2 -->
+      <div class="theory-block">
+        <h3>1.2. Три способа сказать «У меня есть» (Present) 🎁</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Способ</th><th>Пример</th><th>Особенность</th></tr>
+            <tr class="clickable-row" data-hint="I have a flat. = I have got a flat. — У меня есть квартира."><td>have / has</td><td><em>I have a flat.</em></td><td>Нейтральный, книжный</td></tr>
+            <tr class="clickable-row" data-hint="He has got a car. = He has a car. — У него есть машина."><td>have got / has got</td><td><em>I have got a flat.</em></td><td>Разговорный, британский</td></tr>
+            <tr class="clickable-row" data-hint="Do you have a flat? = Have you got a flat? — У тебя есть квартира?"><td>do/does + have</td><td><em>Do you have a flat?</em></td><td>Американский, вопрос</td></tr>
+          </table>
+        </div>
+        <div class="hint-popup" id="hint2"></div>
+
+        <p><strong>В утверждении:</strong></p>
+        <p class="example-sentence" data-translation="У меня есть квартира.">I have a flat. = I have got a flat. <span class="translation"></span></p>
+        <p class="example-sentence" data-translation="У него есть машина.">He has a car. = He has got a car. <span class="translation"></span></p>
+
+        <p><strong>В вопросе:</strong></p>
+        <p class="example-sentence" data-translation="У тебя есть квартира?">Have you got a flat? = Do you have a flat? <span class="translation"></span></p>
+        <p class="example-sentence" data-translation="У неё есть машина?">Has she got a car? = Does she have a car? <span class="translation"></span></p>
+
+        <p><strong>В отрицании:</strong></p>
+        <p class="example-sentence" data-translation="У меня нет квартиры.">I haven't got a flat. = I don't have a flat. <span class="translation"></span></p>
+        <p class="example-sentence" data-translation="У него нет машины.">He hasn't got a car. = He doesn't have a car. <span class="translation"></span></p>
+
+        <div class="important">
+          ⚠️ <strong>Важно:</strong> нельзя смешивать!<br>
+          <span class="incorrect-sentence">❌ Do you have got a flat?</span> — так нельзя.
+          <button class="toggle-btn" id="showCorrect1" style="margin-left:10px;">Показать правильный вариант</button>
+          <div class="correct-sentence" id="correct1">✅ Do you have a flat? <em>или</em> Have you got a flat?</div>
+        </div>
+
+        <div class="mini-quiz" data-quiz="1">
+          <p><strong>Мини-квиз:</strong> Какая форма подходит для <em>she</em>?</p>
+          <div class="quiz-options">
+            <button class="quiz-btn" data-correct="false">have</button>
+            <button class="quiz-btn" data-correct="true">has</button>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+      </div>
+
+      <!-- 1.3 -->
+      <div class="theory-block">
+        <h3>1.3. Past (Прошедшее) ⏪</h3>
+        <p>В прошедшем времени всё просто: одна форма для всех — <strong>had</strong>.</p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Тип</th><th>Пример</th></tr>
+            <tr class="clickable-row" data-hint="I had a flat. He had a car. — У меня была квартира. У него была машина."><td>Утверждение</td><td>I had a flat. He had a car.</td></tr>
+            <tr class="clickable-row" data-hint="I didn't have a flat. He didn't have a car. — У меня не было квартиры. У него не было машины."><td>Отрицание</td><td>I didn't have a flat. He didn't have a car.</td></tr>
+            <tr class="clickable-row" data-hint="Did you have a flat? Did he have a car? — У тебя была квартира? У него была машина?"><td>Вопрос</td><td>Did you have a flat? Did he have a car?</td></tr>
+          </table>
+        </div>
+        <div class="hint-popup" id="hint3"></div>
+        <p>Обратите внимание: в отрицании и вопросе используется <strong>did</strong>, а <strong>have</strong> остаётся в начальной форме (без -ed, без had).</p>
+        <p>✅ <span class="example-sentence" data-translation="У тебя была машина?">Did you have a car?</span> <span class="translation"></span></p>
+        <p>❌ <span class="incorrect-sentence">Did you had a car?</span></p>
+
+        <div class="mini-quiz" data-quiz="2">
+          <p><strong>Мини-квиз:</strong> Как сказать «У него была собака?»</p>
+          <div class="quiz-options">
+            <button class="quiz-btn" data-correct="false">Did he had a dog?</button>
+            <button class="quiz-btn" data-correct="true">Did he have a dog?</button>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+      </div>
+
+      <!-- 1.4 -->
+      <div class="theory-block">
+        <h3>1.4. Future (Будущее) ⏩</h3>
+        <p>В будущем времени — <strong>will have</strong> для всех лиц.</p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Тип</th><th>Пример</th></tr>
+            <tr class="clickable-row" data-hint="I will have a flat. He will have a car. — У меня будет квартира. У него будет машина."><td>Утверждение</td><td>I will have a flat. He will have a car.</td></tr>
+            <tr class="clickable-row" data-hint="I won't have a flat. He won't have a car. — У меня не будет квартиры. У него не будет машины."><td>Отрицание</td><td>I won't have a flat. He won't have a car.</td></tr>
+            <tr class="clickable-row" data-hint="Will you have a flat? Will he have a car? — У тебя будет квартира? У него будет машина?"><td>Вопрос</td><td>Will you have a flat? Will he have a car?</td></tr>
+          </table>
+        </div>
+        <div class="hint-popup" id="hint4"></div>
+        <p>В учебнике указано (shall) — но в современном английском <strong>shall</strong> практически не используется. Говорим <strong>will</strong> для всех.</p>
+
+        <div class="mini-quiz" data-quiz="3">
+          <p><strong>Мини-квиз:</strong> Выбери правильный перевод: «У неё будет машина».</p>
+          <div class="quiz-options">
+            <button class="quiz-btn" data-correct="false">She will has a car.</button>
+            <button class="quiz-btn" data-correct="true">She will have a car.</button>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+      </div>
+
+      <!-- 1.5 -->
+      <div class="theory-block">
+        <h3>1.5. Сводная таблица 📊</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Время</th><th>Утверждение</th><th>Отрицание</th><th>Вопрос</th></tr>
+            <tr class="clickable-row" data-hint="Present: I have / He has. Отрицание: I don't have / He doesn't have. Вопрос: Do you have? / Does he have?"><td>Present</td><td>I have / He has</td><td>I don't have / He doesn't have</td><td>Do you have? / Does he have?</td></tr>
+            <tr class="clickable-row" data-hint="Present (got): I have got / He has got. Отрицание: I haven't got / He hasn't got. Вопрос: Have you got? / Has he got?"><td>Present (got)</td><td>I have got / He has got</td><td>I haven't got / He hasn't got</td><td>Have you got? / Has he got?</td></tr>
+            <tr class="clickable-row" data-hint="Past: I had / He had. Отрицание: I didn't have / He didn't have. Вопрос: Did you have? / Did he have?"><td>Past</td><td>I had / He had</td><td>I didn't have / He didn't have</td><td>Did you have? / Did he have?</td></tr>
+            <tr class="clickable-row" data-hint="Future: I will have / He will have. Отрицание: I won't have / He won't have. Вопрос: Will you have? / Will he have?"><td>Future</td><td>I will have / He will have</td><td>I won't have / He won't have</td><td>Will you have? / Will he have?</td></tr>
+          </table>
+        </div>
+        <div class="hint-popup" id="hint5"></div>
+      </div>
+    </div>
+
+    <!-- ЭКРАН ПРИМЕРЫ -->
+    <div class="screen" id="screen-examples">
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">Все</button>
+        <button class="filter-btn" data-filter="present">Present</button>
+        <button class="filter-btn" data-filter="present-got">Present (got)</button>
+        <button class="filter-btn" data-filter="past">Past</button>
+        <button class="filter-btn" data-filter="future">Future</button>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-fill" id="cardsProgress" style="width:0%"></div>
+      </div>
+      <p id="cardsCounter">Ты открыл 0 из 25 карточек</p>
+      <div class="cards-grid" id="cardsGrid"></div>
+    </div>
+
+    <!-- ЭКРАН ПРОВЕРОЧНАЯ -->
+    <div class="screen" id="screen-test">
+      <div class="test-header">
+        <div class="progress-bar-container" style="flex:1;margin-right:16px;">
+          <div class="progress-fill" id="testProgress" style="width:0%"></div>
+        </div>
+        <span id="testProgressText">0%</span>
+      </div>
+
+      <!-- Задание 1 -->
+      <div class="task-card" data-task="1">
+        <div class="task-title">Задание 1. Вставь have, has, had или will have. (перетащи или выбери слово)</div>
+        <div class="drag-words" id="dragWords1">
+          <span class="drag-word" draggable="true" data-word="have">have</span>
+          <span class="drag-word" draggable="true" data-word="has">has</span>
+          <span class="drag-word" draggable="true" data-word="had">had</span>
+          <span class="drag-word" draggable="true" data-word="will have">will have</span>
+        </div>
+        <div class="drop-zones" id="dropZones1"></div>
+      </div>
+
+      <!-- Задание 2 -->
+      <div class="task-card" data-task="2">
+        <div class="task-title">Задание 2. Выбери правильный вариант (клик по чипу)</div>
+        <div id="chipsContainer2"></div>
+      </div>
+
+      <!-- Задание 3 -->
+      <div class="task-card" data-task="3">
+        <div class="task-title">Задание 3. Сделай предложения отрицательными.</div>
+        <div id="inputs3"></div>
+      </div>
+
+      <!-- Задание 4 -->
+      <div class="task-card" data-task="4">
+        <div class="task-title">Задание 4. Задай вопрос к предложению.</div>
+        <div id="inputs4"></div>
+      </div>
+
+      <!-- Задание 5 -->
+      <div class="task-card" data-task="5">
+        <div class="task-title">Задание 5. Переведи на английский.</div>
+        <div id="inputs5"></div>
+      </div>
+
+      <!-- Задание 6 -->
+      <div class="task-card" data-task="6">
+        <div class="task-title">Задание 6. Исправь ошибки (отредактируй предложение).</div>
+        <div id="inputs6"></div>
+      </div>
+
+      <!-- Задание 7 -->
+      <div class="task-card" data-task="7">
+        <div class="task-title">Задание 7. Составь предложения из слов.</div>
+        <div id="words7"></div>
+      </div>
+
+      <!-- Задание 8 -->
+      <div class="task-card" data-task="8">
+        <div class="task-title">Задание 8. Раскрой скобки, используя правильную форму.</div>
+        <div id="inputs8"></div>
+        <datalist id="datalist8">
+          <option value="has">
+          <option value="had">
+          <option value="will have">
+          <option value="don't have">
+          <option value="haven't got">
+          <option value="Have you got">
+          <option value="won't have">
+          <option value="have">
+        </datalist>
+      </div>
+
+      <div style="text-align:center;">
+        <button class="check-btn" id="checkTestBtn" disabled>Проверить ✅</button>
+      </div>
+    </div>
+
+    <!-- ЭКРАН РЕЗУЛЬТАТ -->
+    <div class="screen" id="screen-result">
+      <div id="resultContent"></div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // ========== ДАННЫЕ ДЛЯ ПРИМЕРОВ (25 карточек) ==========
+      const exampleCards = [
+        { front: "I have a younger brother.", back: "У меня есть младший брат.", cat: "present" },
+        { front: "She has a beautiful voice.", back: "У неё красивый голос.", cat: "present" },
+        { front: "We have three lessons today.", back: "У нас сегодня три урока.", cat: "present" },
+        { front: "They have a big garden.", back: "У них большой сад.", cat: "present" },
+        { front: "My cat has green eyes.", back: "У моей кошки зелёные глаза.", cat: "present" },
+        { front: "I have got a new backpack.", back: "У меня есть новый рюкзак.", cat: "present-got" },
+        { front: "He has got a lot of friends.", back: "У него много друзей.", cat: "present-got" },
+        { front: "Have you got a minute?", back: "У тебя есть минутка?", cat: "present-got" },
+        { front: "She hasn't got any pets.", back: "У неё нет питомцев.", cat: "present-got" },
+        { front: "We have got a lot of homework today.", back: "У нас сегодня много домашки.", cat: "present-got" },
+        { front: "Do you have a dictionary?", back: "У тебя есть словарь?", cat: "present" },
+        { front: "Does he have a bike?", back: "У него есть велосипед?", cat: "present" },
+        { front: "I don't have any questions.", back: "У меня нет вопросов.", cat: "present" },
+        { front: "She doesn't have a phone.", back: "У неё нет телефона.", cat: "present" },
+        { front: "Do they have a dog?", back: "У них есть собака?", cat: "present" },
+        { front: "I had a great time yesterday.", back: "Вчера я отлично провёл время.", cat: "past" },
+        { front: "She had a cold last week.", back: "На прошлой неделе она простудилась.", cat: "past" },
+        { front: "We had a test on Monday.", back: "В понедельник у нас была контрольная.", cat: "past" },
+        { front: "Did you have breakfast today?", back: "Ты сегодня завтракал?", cat: "past" },
+        { front: "He didn't have any money.", back: "У него не было денег.", cat: "past" },
+        { front: "I will have a new computer soon.", back: "Скоро у меня будет новый компьютер.", cat: "future" },
+        { front: "She will have a birthday party next week.", back: "На следующей неделе у неё будет день рождения.", cat: "future" },
+        { front: "Will you have time tomorrow?", back: "У тебя будет время завтра?", cat: "future" },
+        { front: "We won't have lessons on Saturday.", back: "В субботу у нас не будет уроков.", cat: "future" },
+        { front: "They will have a lot of fun at the camp.", back: "Им будет очень весело в лагере.", cat: "future" }
+      ];
+
+      // ========== ЗАДАНИЯ ПРОВЕРОЧНОЙ ==========
+      // Задание 1: 10 пропусков, правильные ответы
+      const task1Questions = [
+        "I ______ a big family.",
+        "She ______ a new dress yesterday.",
+        "We ______ a test tomorrow.",
+        "He ______ a dog when he was little.",
+        "They ______ a lot of friends now.",
+        "My sister ______ a cold last week.",
+        "I ______ time tomorrow.",
+        "You ______ a nice bike.",
+        "It ______ a long tail.",
+        "We ______ a party next Sunday."
+      ];
+      const task1Answers = ["have", "had", "will have", "had", "have", "had", "will have", "have", "has", "will have"];
+
+      // Задание 2: 10 предложений с чипами
+      const task2Sentences = [
+        "______ you got a pen?",
+        "______ she have a cat?",
+        "______ they have a car?",
+        "______ he got a bike?",
+        "______ you have a good weekend?",
+        "______ we have a lesson tomorrow?",
+        "______ I got a message?",
+        "______ your brother have a computer?",
+        "______ she got a new phone?",
+        "______ they have a lot of homework yesterday?"
+      ];
+      const task2Answers = ["Have", "Does", "Do", "Has", "Did", "Will", "Have", "Does", "Has", "Did"];
+      const task2Options = ["Have", "Has", "Do", "Does", "Did", "Will"];
+
+      // Задание 3: 8 предложений для отрицания
+      const task3Sentences = [
+        "I have a dog.",
+        "She has got a car.",
+        "They had a party yesterday.",
+        "He will have a test tomorrow.",
+        "We have got a lot of work.",
+        "You have a brother.",
+        "She had a cat.",
+        "I will have time."
+      ];
+      const task3Answers = [
+        ["i don't have a dog", "i haven't got a dog"],
+        ["she hasn't got a car"],
+        ["they didn't have a party yesterday"],
+        ["he won't have a test tomorrow"],
+        ["we haven't got a lot of work"],
+        ["you don't have a brother", "you haven't got a brother"],
+        ["she didn't have a cat"],
+        ["i won't have time"]
+      ];
+
+      // Задание 4: 8 предложений для вопроса
+      const task4Sentences = [
+        "She has a doll.",
+        "They have got a house.",
+        "He had a bike.",
+        "We will have a lesson.",
+        "You have a pen.",
+        "She has got a sister.",
+        "They had a dog.",
+        "I will have a party."
+      ];
+      const task4Answers = [
+        ["does she have a doll", "has she got a doll"],
+        ["have they got a house"],
+        ["did he have a bike"],
+        ["will we have a lesson"],
+        ["do you have a pen", "have you got a pen"],
+        ["has she got a sister"],
+        ["did they have a dog"],
+        ["will i have a party"]
+      ];
+
+      // Задание 5: перевод
+      const task5Sentences = [
+        "У меня есть кошка.",
+        "У неё есть велосипед?",
+        "У нас вчера была контрольная.",
+        "Завтра у них будет праздник.",
+        "У него нет собаки.",
+        "У тебя есть ручка?",
+        "У меня был хороший день вчера.",
+        "У неё будет много времени завтра.",
+        "У нас есть новый учитель.",
+        "У них не было урока в понедельник."
+      ];
+      const task5Answers = [
+        ["i have a cat", "i have got a cat"],
+        ["does she have a bike", "has she got a bike"],
+        ["we had a test yesterday"],
+        ["they will have a party tomorrow"],
+        ["he doesn't have a dog", "he hasn't got a dog"],
+        ["do you have a pen", "have you got a pen"],
+        ["i had a good day yesterday"],
+        ["she will have a lot of time tomorrow"],
+        ["we have a new teacher", "we have got a new teacher"],
+        ["they didn't have a lesson on monday"]
+      ];
+
+      // Задание 6: исправь ошибки
+      const task6Sentences = [
+        "She have a cat.",
+        "I has got a bike.",
+        "Did you had a good time?",
+        "He don't have a phone.",
+        "Will she has a car?",
+        "We didn't had a lesson.",
+        "Do he have a dog?",
+        "I will have got a computer.",
+        "She hasn't a cat.",
+        "They has a lot of friends."
+      ];
+      const task6Answers = [
+        ["she has a cat"],
+        ["i have got a bike"],
+        ["did you have a good time"],
+        ["he doesn't have a phone"],
+        ["will she have a car"],
+        ["we didn't have a lesson"],
+        ["does he have a dog"],
+        ["i will have a computer"],
+        ["she doesn't have a cat", "she hasn't got a cat"],
+        ["they have a lot of friends"]
+      ];
+
+      // Задание 7: составь предложение
+      const task7Sentences = [
+        { words: ["have", "I", "a", "dog", "got", "."], answer: "i have got a dog" },
+        { words: ["she", "does", "a", "have", "cat", "?"], answer: "does she have a cat" },
+        { words: ["had", "we", "yesterday", "test", "a", "."], answer: "we had a test yesterday" },
+        { words: ["will", "they", "have", "tomorrow", "party", "a", "."], answer: "they will have a party tomorrow" },
+        { words: ["got", "he", "hasn't", "bike", "a", "."], answer: "he hasn't got a bike" }
+      ];
+
+      // Задание 8: раскрой скобки
+      const task8Sentences = [
+        "My friend (have) a new phone.",
+        "We (have) a test yesterday.",
+        "She (have) a party next week.",
+        "They (not / have) a car.",
+        "You (have got) a pen?",
+        "He (have) a dog when he was five.",
+        "I (not / have) time tomorrow.",
+        "She (have) a cold last month.",
+        "We (have) a lot of homework today.",
+        "They (have) a house in the country."
+      ];
+      const task8Answers = [
+        ["has"],
+        ["had"],
+        ["will have"],
+        ["don't have", "haven't got"],
+        ["have you got"],
+        ["had"],
+        ["won't have"],
+        ["had"],
+        ["have"],
+        ["have"]
+      ];
+
+      // ========== ANSWERS (в конце скрипта) ==========
+      const ANSWERS = {
+        task1: task1Answers,
+        task2: task2Answers,
+        task3: task3Answers,
+        task4: task4Answers,
+        task5: task5Answers,
+        task6: task6Answers,
+        task7: task7Sentences.map(t => t.answer),
+        task8: task8Answers
+      };
+
+      // ========== СОСТОЯНИЕ ==========
+      let currentScreen = 'theory';
+      let selectedWords1 = []; // для задания 1 (tap-to-select)
+      let task7Selections = []; // для задания 7
+      let draftAnswers = {}; // черновик
+      let history = JSON.parse(localStorage.getItem('haveTrainerHistory') || '[]');
+
+      // ========== DOM ==========
+      const screens = {
+        theory: document.getElementById('screen-theory'),
+        examples: document.getElementById('screen-examples'),
+        test: document.getElementById('screen-test'),
+        result: document.getElementById('screen-result')
+      };
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const themeToggle = document.getElementById('themeToggle');
+      const owlText = document.getElementById('owlText');
+
+      // ========== УТИЛИТЫ ==========
+      function normalize(str) {
+        if (!str) return '';
+        return str.toLowerCase()
+          .replace(/[.,?!'’]/g, '')
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+
+      function checkAnswer(userAnswer, correctAnswers) {
+        const normalized = normalize(userAnswer);
+        if (!normalized) return false;
+        for (let ans of correctAnswers) {
+          if (normalize(ans) === normalized) return true;
+        }
+        return false;
+      }
+
+      function saveDraft() {
+        localStorage.setItem('haveTrainerDraft', JSON.stringify(draftAnswers));
+      }
+
+      function loadDraft() {
+        try {
+          const saved = localStorage.getItem('haveTrainerDraft');
+          if (saved) draftAnswers = JSON.parse(saved);
+        } catch (e) {
+          draftAnswers = {};
+        }
+      }
+
+      // ========== ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ ==========
+      function switchScreen(screenName) {
+        currentScreen = screenName;
+        Object.keys(screens).forEach(key => {
+          screens[key].classList.toggle('active', key === screenName);
+        });
+        tabBtns.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.screen === screenName);
+        });
+        // Обучающие сообщения
+        const messages = {
+          theory: 'Изучай правила! Нажимай на таблицы и примеры 👆',
+          examples: 'Открывай карточки и переворачивай их! 🔄',
+          test: 'Внимательно выполняй задания. Удачи! 🍀',
+          result: 'Посмотри свои результаты 📊'
+        };
+        owlText.textContent = messages[screenName] || 'Привет! Я совёнок 🦉';
+
+        if (screenName === 'examples') renderCards();
+        if (screenName === 'test') renderTest();
+        if (screenName === 'result') renderResult();
+      }
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => switchScreen(btn.dataset.screen));
+      });
+
+      // ========== ТЕМА ==========
+      themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        themeToggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+        localStorage.setItem('haveTrainerTheme', document.body.classList.contains('dark') ? 'dark' : 'light');
+      });
+      if (localStorage.getItem('haveTrainerTheme') === 'dark') {
+        document.body.classList.add('dark');
+        themeToggle.textContent = '☀️';
+      }
+
+      // ========== ТЕОРИЯ: интерактив ==========
+      // Кликабельные строки таблиц
+      document.querySelectorAll('.clickable-row').forEach(row => {
+        row.addEventListener('click', function() {
+          document.querySelectorAll('.clickable-row').forEach(r => r.classList.remove('selected'));
+          this.classList.add('selected');
+          const hintText = this.dataset.hint;
+          const parentBlock = this.closest('.theory-block');
+          const hint = parentBlock.querySelector('.hint-popup');
+          if (hint && hintText) {
+            hint.textContent = '💡 ' + hintText;
+            hint.classList.add('show');
+          }
+        });
+      });
+
+      // Кликабельные примеры
+      document.querySelectorAll('.example-sentence').forEach(el => {
+        el.addEventListener('click', function() {
+          const trans = this.querySelector('.translation');
+          if (trans) {
+            trans.textContent = this.dataset.translation || '';
+            trans.classList.toggle('show');
+          }
+        });
+      });
+
+      // Показать правильный вариант
+      document.getElementById('showCorrect1').addEventListener('click', function() {
+        document.getElementById('correct1').classList.add('show');
+      });
+
+      // Мини-квизы
+      document.querySelectorAll('.mini-quiz').forEach(quiz => {
+        const btns = quiz.querySelectorAll('.quiz-btn');
+        const feedback = quiz.querySelector('.quiz-feedback');
+        btns.forEach(btn => {
+          btn.addEventListener('click', function() {
+            const isCorrect = this.dataset.correct === 'true';
+            btns.forEach(b => {
+              b.classList.remove('correct', 'wrong');
+              b.disabled = false;
+            });
+            if (isCorrect) {
+              this.classList.add('correct');
+              feedback.textContent = '✅ Молодец! Правильно!';
+              feedback.style.color = '#2e9e4a';
+            } else {
+              this.classList.add('wrong');
+              feedback.textContent = '❌ Попробуй ещё раз. Подсказка: подумай о лице и числе.';
+              feedback.style.color = '#c0392b';
+              setTimeout(() => {
+                this.classList.remove('wrong');
+              }, 600);
+            }
+          });
+        });
+      });
+
+      // ========== ПРИМЕРЫ: карточки ==========
+      let openedCards = new Set();
+
+      function renderCards() {
+        const grid = document.getElementById('cardsGrid');
+        const filter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+        if (!grid) return;
+        grid.innerHTML = '';
+        const filtered = exampleCards.filter(c => filter === 'all' || c.cat === filter);
+        filtered.forEach((card, idx) => {
+          const cardEl = document.createElement('div');
+          cardEl.className = 'flip-card';
+          cardEl.dataset.index = exampleCards.indexOf(card);
+          cardEl.innerHTML = `
+            <div class="front">${card.front}</div>
+            <div class="back">${card.back}</div>
+            <span class="check-badge">${openedCards.has(exampleCards.indexOf(card)) ? '✅' : ''}</span>
+          `;
+          if (openedCards.has(exampleCards.indexOf(card))) {
+            cardEl.classList.add('flipped');
+          }
+          cardEl.addEventListener('click', function() {
+            this.classList.toggle('flipped');
+            const realIdx = parseInt(this.dataset.index);
+            openedCards.add(realIdx);
+            this.querySelector('.check-badge').textContent = '✅';
+            updateCardsProgress();
+          });
+          grid.appendChild(cardEl);
+        });
+        updateCardsProgress();
+      }
+
+      function updateCardsProgress() {
+        const total = exampleCards.length;
+        const opened = openedCards.size;
+        const percent = (opened / total) * 100;
+        document.getElementById('cardsProgress').style.width = percent + '%';
+        document.getElementById('cardsCounter').textContent = `Ты открыл ${opened} из ${total} карточек`;
+      }
+
+      // Фильтры
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          renderCards();
+        });
+      });
+
+      // ========== ПРОВЕРОЧНАЯ: рендеринг ==========
+      function renderTest() {
+        // Задание 1 (drag-and-drop)
+        const dropZones1 = document.getElementById('dropZones1');
+        if (dropZones1 && dropZones1.children.length === 0) {
+          task1Questions.forEach((q, i) => {
+            const row = document.createElement('div');
+            row.className = 'drop-row';
+            const label = document.createElement('span');
+            label.textContent = (i + 1) + '.';
+            label.style.fontWeight = 'bold';
+            label.style.minWidth = '28px';
+            const sentenceParts = q.split('______');
+            const span1 = document.createElement('span');
+            span1.textContent = sentenceParts[0];
+            const dropZone = document.createElement('div');
+            dropZone.className = 'drop-zone';
+            dropZone.dataset.task = '1';
+            dropZone.dataset.index = i;
+            dropZone.textContent = draftAnswers['1_' + i] || '______';
+            if (draftAnswers['1_' + i]) dropZone.classList.add('filled');
+            // drag events
+            dropZone.addEventListener('dragover', e => e.preventDefault());
+            dropZone.addEventListener('drop', e => {
+              e.preventDefault();
+              const word = e.dataTransfer.getData('text/plain');
+              dropZone.textContent = word;
+              dropZone.classList.add('filled');
+              draftAnswers['1_' + i] = word;
+              saveDraft();
+              updateTestProgress();
+            });
+            // tap-to-select (мобильные)
+            dropZone.addEventListener('click', () => {
+              if (selectedWords1.length > 0) {
+                const word = selectedWords1.pop();
+                dropZone.textContent = word;
+                dropZone.classList.add('filled');
+                draftAnswers['1_' + i] = word;
+                saveDraft();
+                updateTestProgress();
+              }
+            });
+            const span2 = document.createElement('span');
+            span2.textContent = sentenceParts[1] || '';
+            row.appendChild(label);
+            row.appendChild(span1);
+            row.appendChild(dropZone);
+            row.appendChild(span2);
+            dropZones1.appendChild(row);
+          });
+        }
+        // Drag words
+        document.querySelectorAll('#dragWords1 .drag-word').forEach(w => {
+          w.addEventListener('dragstart', e => {
+            e.dataTransfer.setData('text/plain', w.dataset.word);
+          });
+          w.addEventListener('click', () => {
+            selectedWords1 = [w.dataset.word];
+            // визуальное выделение
+            document.querySelectorAll('#dragWords1 .drag-word').forEach(el => el.style.outline = 'none');
+            w.style.outline = '3px solid #4a7df0';
+            setTimeout(() => w.style.outline = 'none', 800);
+          });
+        });
+
+        // Задание 2 (chips)
+        const chips2 = document.getElementById('chipsContainer2');
+        if (chips2 && chips2.children.length === 0) {
+          task2Sentences.forEach((s, i) => {
+            const div = document.createElement('div');
+            div.style.marginBottom = '12px';
+            const p = document.createElement('p');
+            p.textContent = (i + 1) + '. ' + s;
+            div.appendChild(p);
+            const chipRow = document.createElement('div');
+            chipRow.className = 'chips-container';
+            task2Options.forEach(opt => {
+              const chip = document.createElement('span');
+              chip.className = 'chip';
+              chip.textContent = opt;
+              chip.dataset.task = '2';
+              chip.dataset.index = i;
+              chip.dataset.value = opt;
+              if (draftAnswers['2_' + i] === opt) chip.classList.add('selected');
+              chip.addEventListener('click', function() {
+                const parent = this.parentElement;
+                parent.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                draftAnswers['2_' + i] = opt;
+                saveDraft();
+                updateTestProgress();
+              });
+              chipRow.appendChild(chip);
+            });
+            div.appendChild(chipRow);
+            chips2.appendChild(div);
+          });
+        }
+
+        // Задание 3
+        const inputs3 = document.getElementById('inputs3');
+        if (inputs3 && inputs3.children.length === 0) {
+          task3Sentences.forEach((s, i) => {
+            const div = document.createElement('div');
+            div.className = 'input-line';
+            div.innerHTML = `<span>${i+1}. ${s} → </span>`;
+            const inp = document.createElement('input');
+            inp.type = 'text';
+            inp.dataset.task = '3';
+            inp.dataset.index = i;
+            inp.placeholder = 'Введите отрицание...';
+            inp.value = draftAnswers['3_' + i] || '';
+            inp.addEventListener('input', function() {
+              draftAnswers['3_' + i] = this.value;
+              saveDraft();
+              updateTestProgress();
+              liveValidate(this);
+            });
+            div.appendChild(inp);
+            inputs3.appendChild(div);
+          });
+        }
+
+        // Задание 4
+        const inputs4 = document.getElementById('inputs4');
+        if (inputs4 && inputs4.children.length === 0) {
+          task4Sentences.forEach((s, i) => {
+            const div = document.createElement('div');
+            div.className = 'input-line';
+            div.innerHTML = `<span>${i+1}. ${s} → </span>`;
+            const inp = document.createElement('input');
+            inp.type = 'text';
+            inp.dataset.task = '4';
+            inp.dataset.index = i;
+            inp.placeholder = 'Введите вопрос...';
+            inp.value = draftAnswers['4_' + i] || '';
+            inp.addEventListener('input', function() {
+              draftAnswers['4_' + i] = this.value;
+              saveDraft();
+              updateTestProgress();
+              liveValidate(this);
+            });
+            div.appendChild(inp);
+            inputs4.appendChild(div);
+          });
+        }
+
+        // Задание 5
+        const inputs5 = document.getElementById('inputs5');
+        if (inputs5 && inputs5.children.length === 0) {
+          task5Sentences.forEach((s, i) => {
+            const div = document.createElement('div');
+            div.className = 'input-line';
+            div.innerHTML = `<span>${i+1}. ${s} → </span>`;
+            const inp = document.createElement('input');
+            inp.type = 'text';
+            inp.dataset.task = '5';
+            inp.dataset.index = i;
+            inp.placeholder = 'Перевод...';
+            inp.value = draftAnswers['5_' + i] || '';
+            inp.addEventListener('input', function() {
+              draftAnswers['5_' + i] = this.value;
+              saveDraft();
+              updateTestProgress();
+              liveValidate(this);
+            });
+            div.appendChild(inp);
+            inputs5.appendChild(div);
+          });
+        }
+
+        // Задание 6
+        const inputs6 = document.getElementById('inputs6');
+        if (inputs6 && inputs6.children.length === 0) {
+          task6Sentences.forEach((s, i) => {
+            const div = document.createElement('div');
+            div.className = 'input-line';
+            div.innerHTML = `<span>${i+1}. </span>`;
+            const inp = document.createElement('input');
+            inp.type = 'text';
+            inp.dataset.task = '6';
+            inp.dataset.index = i;
+            inp.value = draftAnswers['6_' + i] || s;
+            inp.addEventListener('input', function() {
+              draftAnswers['6_' + i] = this.value;
+              saveDraft();
+              updateTestProgress();
+              liveValidate(this);
+            });
+            div.appendChild(inp);
+            inputs6.appendChild(div);
+          });
+        }
+
+        // Задание 7
+        const words7 = document.getElementById('words7');
+        if (words7 && words7.children.length === 0) {
+          task7Sentences.forEach((item, i) => {
+            const div = document.createElement('div');
+            div.style.marginBottom = '20px';
+            const label = document.createElement('p');
+            label.textContent = `${i+1}. Составь предложение:`;
+            div.appendChild(label);
+            const wordRow = document.createElement('div');
+            wordRow.className = 'drag-words';
+            wordRow.style.flexWrap = 'wrap';
+            const shuffled = [...item.words].sort(() => Math.random() - 0.5);
+            shuffled.forEach(w => {
+              const span = document.createElement('span');
+              span.className = 'drag-word';
+              span.textContent = w;
+              span.dataset.word = w;
+              span.dataset.task = '7';
+              span.dataset.index = i;
+              if (draftAnswers['7_' + i] && draftAnswers['7_' + i].includes(w)) {
+                // восстановление
+              }
+              span.addEventListener('click', function() {
+                // tap-to-add
+                const current = draftAnswers['7_' + i] || '';
+                draftAnswers['7_' + i] = (current + ' ' + w).trim();
+                saveDraft();
+                updateTestProgress();
+                renderTask7Preview(i);
+              });
+              wordRow.appendChild(span);
+            });
+            div.appendChild(wordRow);
+            const preview = document.createElement('p');
+            preview.id = 'preview7_' + i;
+            preview.style.fontWeight = '600';
+            preview.textContent = draftAnswers['7_' + i] || '...';
+            div.appendChild(preview);
+            words7.appendChild(div);
+          });
+        }
+
+        // Задание 8
+        const inputs8 = document.getElementById('inputs8');
+        if (inputs8 && inputs8.children.length === 0) {
+          task8Sentences.forEach((s, i) => {
+            const div = document.createElement('div');
+            div.className = 'input-line';
+            div.innerHTML = `<span>${i+1}. ${s} → </span>`;
+            const inp = document.createElement('input');
+            inp.type = 'text';
+            inp.dataset.task = '8';
+            inp.dataset.index = i;
+            inp.setAttribute('list', 'datalist8');
+            inp.placeholder = 'Введите форму...';
+            inp.value = draftAnswers['8_' + i] || '';
+            inp.addEventListener('input', function() {
+              draftAnswers['8_' + i] = this.value;
+              saveDraft();
+              updateTestProgress();
+              liveValidate(this);
+            });
+            div.appendChild(inp);
+            inputs8.appendChild(div);
+          });
+        }
+
+        updateTestProgress();
+      }
+
+      function renderTask7Preview(i) {
+        const preview = document.getElementById('preview7_' + i);
+        if (preview) {
+          preview.textContent = draftAnswers['7_' + i] || '...';
+        }
+      }
+
+      function liveValidate(input) {
+        const task = input.dataset.task;
+        const idx = input.dataset.index;
+        const val = input.value.trim();
+        if (!val) {
+          input.classList.remove('valid', 'invalid');
+          return;
+        }
+        let correctList = [];
+        if (task === '3') correctList = task3Answers[idx];
+        else if (task === '4') correctList = task4Answers[idx];
+        else if (task === '5') correctList = task5Answers[idx];
+        else if (task === '6') correctList = task6Answers[idx];
+        else if (task === '8') correctList = task8Answers[idx];
+        else return;
+        const isOk = correctList.some(ans => normalize(ans) === normalize(val));
+        input.classList.toggle('valid', isOk);
+        input.classList.toggle('invalid', !isOk);
+      }
+
+      function updateTestProgress() {
+        let total = 0;
+        let filled = 0;
+
+        // Задание 1 (10)
+        for (let i = 0; i < 10; i++) { total++; if (draftAnswers['1_' + i]) filled++; }
+        // Задание 2 (10)
+        for (let i = 0; i < 10; i++) { total++; if (draftAnswers['2_' + i]) filled++; }
+        // Задание 3 (8)
+        for (let i = 0; i < 8; i++) { total++; if (draftAnswers['3_' + i]?.trim()) filled++; }
+        // Задание 4 (8)
+        for (let i = 0; i < 8; i++) { total++; if (draftAnswers['4_' + i]?.trim()) filled++; }
+        // Задание 5 (10)
+        for (let i = 0; i < 10; i++) { total++; if (draftAnswers['5_' + i]?.trim()) filled++; }
+        // Задание 6 (10)
+        for (let i = 0; i < 10; i++) { total++; if (draftAnswers['6_' + i]?.trim()) filled++; }
+        // Задание 7 (5)
+        for (let i = 0; i < 5; i++) { total++; if (draftAnswers['7_' + i]?.trim()) filled++; }
+        // Задание 8 (10)
+        for (let i = 0; i < 10; i++) { total++; if (draftAnswers['8_' + i]?.trim()) filled++; }
+
+        const percent = total > 0 ? Math.round((filled / total) * 100) : 0;
+        document.getElementById('testProgress').style.width = percent + '%';
+        document.getElementById('testProgressText').textContent = percent + '%';
+        document.getElementById('checkTestBtn').disabled = filled < total;
+      }
+
+      // ========== ПРОВЕРКА ==========
+      document.getElementById('checkTestBtn').addEventListener('click', function() {
+        const results = {
+          task1: { correct: 0, total: 10, details: [] },
+          task2: { correct: 0, total: 10, details: [] },
+          task3: { correct: 0, total: 8, details: [] },
+          task4: { correct: 0, total: 8, details: [] },
+          task5: { correct: 0, total: 10, details: [] },
+          task6: { correct: 0, total: 10, details: [] },
+          task7: { correct: 0, total: 5, details: [] },
+          task8: { correct: 0, total: 10, details: [] }
+        };
+
+        // Задание 1
+        for (let i = 0; i < 10; i++) {
+          const userAns = draftAnswers['1_' + i] || '';
+          const correct = checkAnswer(userAns, [task1Answers[i]]);
+          if (correct) results.task1.correct++;
+          else results.task1.details.push({ index: i, user: userAns || '(пусто)', correct: task1Answers[i] });
+        }
+        // Задание 2
+        for (let i = 0; i < 10; i++) {
+          const userAns = draftAnswers['2_' + i] || '';
+          const correct = normalize(userAns) === normalize(task2Answers[i]);
+          if (correct) results.task2.correct++;
+          else results.task2.details.push({ index: i, user: userAns || '(пусто)', correct: task2Answers[i] });
+        }
+        // Задание 3
+        for (let i = 0; i < 8; i++) {
+          const userAns = draftAnswers['3_' + i] || '';
+          const correct = task3Answers[i].some(a => normalize(a) === normalize(userAns));
+          if (correct) results.task3.correct++;
+          else results.task3.details.push({ index: i, user: userAns || '(пусто)', correct: task3Answers[i].join(' или ') });
+        }
+        // Задание 4
+        for (let i = 0; i < 8; i++) {
+          const userAns = draftAnswers['4_' + i] || '';
+          const correct = task4Answers[i].some(a => normalize(a) === normalize(userAns));
+          if (correct) results.task4.correct++;
+          else results.task4.details.push({ index: i, user: userAns || '(пусто)', correct: task4Answers[i].join(' или ') });
+        }
+        // Задание 5
+        for (let i = 0; i < 10; i++) {
+          const userAns = draftAnswers['5_' + i] || '';
+          const correct = task5Answers[i].some(a => normalize(a) === normalize(userAns));
+          if (correct) results.task5.correct++;
+          else results.task5.details.push({ index: i, user: userAns || '(пусто)', correct: task5Answers[i].join(' или ') });
+        }
+        // Задание 6
+        for (let i = 0; i < 10; i++) {
+          const userAns = draftAnswers['6_' + i] || task6Sentences[i];
+          const correct = task6Answers[i].some(a => normalize(a) === normalize(userAns));
+          if (correct) results.task6.correct++;
+          else results.task6.details.push({ index: i, user: userAns, correct: task6Answers[i].join(' или ') });
+        }
+        // Задание 7
+        for (let i = 0; i < 5; i++) {
+          const userAns = draftAnswers['7_' + i] || '';
+          const correct = normalize(userAns) === normalize(task7Sentences[i].answer);
+          if (correct) results.task7.correct++;
+          else results.task7.details.push({ index: i, user: userAns || '(пусто)', correct: task7Sentences[i].answer });
+        }
+        // Задание 8
+        for (let i = 0; i < 10; i++) {
+          const userAns = draftAnswers['8_' + i] || '';
+          const correct = task8Answers[i].some(a => normalize(a) === normalize(userAns));
+          if (correct) results.task8.correct++;
+          else results.task8.details.push({ index: i, user: userAns || '(пусто)', correct: task8Answers[i].join(' или ') });
+        }
+
+        // Подсчёт баллов
+        const scores = {
+          task1: results.task1.correct,
+          task2: results.task2.correct,
+          task3: results.task3.correct,
+          task4: results.task4.correct,
+          task5: results.task5.correct,
+          task6: results.task6.correct,
+          task7: results.task7.correct,
+          task8: results.task8.correct
+        };
+        const totalScore = Object.values(scores).reduce((a, b) => a + b, 0);
+        const maxScore = 71;
+
+        // Сохраняем историю
+        history.push(totalScore);
+        if (history.length > 5) history.shift();
+        localStorage.setItem('haveTrainerHistory', JSON.stringify(history));
+
+        // Сохраняем результаты для экрана
+        localStorage.setItem('haveTrainerLastResults', JSON.stringify({ results, scores, totalScore, maxScore }));
+
+        // Переход на экран результата
+        switchScreen('result');
+      });
+
+      // ========== ЭКРАН РЕЗУЛЬТАТА ==========
+      function renderResult() {
+        const container = document.getElementById('resultContent');
+        if (!container) return;
+
+        let lastResults;
+        try {
+          lastResults = JSON.parse(localStorage.getItem('haveTrainerLastResults'));
+        } catch (e) {
+          lastResults = null;
+        }
+
+        if (!lastResults) {
+          container.innerHTML = '<p style="text-align:center;padding:40px;">Пройди проверочную работу, чтобы увидеть результат! 📝</p>';
+          return;
+        }
+
+        const { results, scores, totalScore, maxScore } = lastResults;
+        const percent = Math.round((totalScore / maxScore) * 100);
+
+        let rewardEmoji, rewardText, grade;
+        if (percent >= 90) {
+          rewardEmoji = '🏆';
+          rewardText = 'Ты супер! Отличный результат!';
+          grade = '5';
+          launchConfetti();
+        } else if (percent >= 75) {
+          rewardEmoji = '🥈';
+          rewardText = 'Хорошо! Ещё чуть-чуть до пятёрки!';
+          grade = '4';
+        } else if (percent >= 50) {
+          rewardEmoji = '🥉';
+          rewardText = 'Неплохо! Но есть что повторить.';
+          grade = '3';
+        } else {
+          rewardEmoji = '📚';
+          rewardText = 'Не расстраивайся! Давай разберём ошибки.';
+          grade = '2';
+        }
+
+        // Построение HTML
+        let html = `
+          <div class="result-card">
+            <div style="font-size:5rem;">${rewardEmoji}</div>
+            <h2>${rewardText}</h2>
+            <div class="big-score" id="scoreCounter">0 из ${maxScore}</div>
+            <div style="display:flex;justify-content:center;align-items:center;gap:24px;flex-wrap:wrap;">
+              <svg width="120" height="120" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="54" fill="none" stroke="#e0e8f5" stroke-width="12"/>
+                <circle cx="60" cy="60" r="54" fill="none" stroke="#4a7df0" stroke-width="12"
+                  stroke-dasharray="${2 * Math.PI * 54}" stroke-dashoffset="${2 * Math.PI * 54 * (1 - percent/100)}"
+                  stroke-linecap="round" transform="rotate(-90 60 60)" id="progressCircle"/>
+                <text x="60" y="68" text-anchor="middle" font-size="28" font-weight="bold" fill="#4a7df0">${percent}%</text>
+              </svg>
+              <div class="grade-circle">${grade}</div>
+            </div>
+          </div>
+          <div class="result-card">
+            <h3>📊 Статистика</h3>
+            <p>✅ Правильных ответов: <strong>${totalScore}</strong></p>
+            <p>❌ Неправильных ответов: <strong>${maxScore - totalScore}</strong></p>
+          </div>
+          <div class="result-card">
+            <h3>📋 Разбивка по заданиям</h3>
+            <table class="stats-table" style="width:100%;">
+              <tr><th>Задание</th><th>Правильно</th><th>Неправильно</th><th>Баллы</th></tr>
+        `;
+
+        const taskNames = {
+          task1: 'Задание 1 (have/has/had/will have)',
+          task2: 'Задание 2 (выбор вспомогательного)',
+          task3: 'Задание 3 (отрицания)',
+          task4: 'Задание 4 (вопросы)',
+          task5: 'Задание 5 (перевод)',
+          task6: 'Задание 6 (исправь ошибки)',
+          task7: 'Задание 7 (порядок слов)',
+          task8: 'Задание 8 (раскрой скобки)'
+        };
+
+        for (let t = 1; t <= 8; t++) {
+          const key = 'task' + t;
+          const r = results[key];
+          const incorrect = r.total - r.correct;
+          html += `<tr class="clickable-stat" data-task="${key}">
+            <td>${taskNames[key]}</td>
+            <td>${r.correct}</td>
+            <td>${incorrect}</td>
+            <td>${r.correct} / ${r.total}</td>
+          </tr>`;
+          if (r.details.length > 0) {
+            html += `<tr><td colspan="4"><div class="error-detail" id="detail-${key}">`;
+            r.details.forEach(d => {
+              html += `<div>❌ ${d.user} → ✅ ${d.correct}</div>`;
+            });
+            html += `</div></td></tr>`;
+          }
+        }
+        html += `</table></div>`;
+
+        // Рекомендации
+        html += `<div class="result-card"><h3>💡 Рекомендации</h3>`;
+        const weakTasks = [];
+        for (let t = 1; t <= 8; t++) {
+          const key = 'task' + t;
+          const r = results[key];
+          const incorrect = r.total - r.correct;
+          if (incorrect > 0) {
+            weakTasks.push({ task: t, incorrect, total: r.total });
+          }
+        }
+        weakTasks.sort((a, b) => b.incorrect - a.incorrect);
+        if (weakTasks.length === 0) {
+          html += `<p>Ты отлично справился! Можешь помочь другу разобраться с этой темой 😊</p>`;
+        } else {
+          const advice = {
+            1: 'Повтори маркеры времени (yesterday, tomorrow, now, last week) и формы have/has/had/will have.',
+            2: 'Повтори выбор вспомогательного глагола (do/does/did/will).',
+            3: 'Отработай построение отрицаний: don\'t/doesn\'t/didn\'t/won\'t + have.',
+            4: 'Отработай построение вопросов: Do/Does/Did/Will + подлежащее + have.',
+            5: 'Потренируй перевод типичных фраз с have.',
+            6: 'Это «ловушки»: did уже несёт прошедшее время, поэтому have не меняется.',
+            7: 'Повтори порядок слов в английском предложении.',
+            8: 'Повтори правила согласования времён.'
+          };
+          weakTasks.forEach(w => {
+            html += `<div class="recommendation">${advice[w.task]}</div>`;
+          });
+        }
+        html += `</div>`;
+
+        // История
+        html += `<div class="result-card"><h3>📈 Твои прошлые попытки</h3>`;
+        if (history.length > 0) {
+          const maxH = Math.max(...history, 71);
+          html += `<div class="history-graph">`;
+          history.forEach(h => {
+            const height = (h / maxH) * 50;
+            html += `<div class="history-bar" style="height:${height}px;">${h}</div>`;
+          });
+          html += `</div>`;
+          html += `<p>${history.join(' → ')}</p>`;
+        } else {
+          html += `<p>Пока нет истории.</p>`;
+        }
+        html += `</div>`;
+
+        // Кнопки
+        html += `<div class="btn-group">
+          <button class="btn" id="restartBtn">🔁 Пройти заново</button>
+          <button class="btn" id="theoryBtn">📖 Повторить теорию</button>
+          <button class="btn" id="examplesBtn">💡 Посмотреть примеры</button>
+          <button class="btn btn-primary" id="practiceBtn">🎯 Отработать ошибки</button>
+        </div>`;
+
+        container.innerHTML = html;
+
+        // Анимация счётчика
+        animateCounter(totalScore, maxScore);
+
+        // Клики по строкам статистики
+        document.querySelectorAll('.clickable-stat').forEach(row => {
+          row.addEventListener('click', function() {
+            const taskKey = this.dataset.task;
+            const detail = document.getElementById('detail-' + taskKey);
+            if (detail) {
+              detail.classList.toggle('show');
+            }
+          });
+        });
+
+        // Кнопки
+        document.getElementById('restartBtn')?.addEventListener('click', () => {
+          localStorage.removeItem('haveTrainerDraft');
+          draftAnswers = {};
+          openedCards.clear();
+          selectedWords1 = [];
+          task7Selections = [];
+          switchScreen('test');
+        });
+        document.getElementById('theoryBtn')?.addEventListener('click', () => switchScreen('theory'));
+        document.getElementById('examplesBtn')?.addEventListener('click', () => switchScreen('examples'));
+        document.getElementById('practiceBtn')?.addEventListener('click', () => {
+          // Просто переходим в тест, но можно было бы отфильтровать... оставим все задания
+          switchScreen('test');
+        });
+      }
+
+      function animateCounter(target, max) {
+        const el = document.getElementById('scoreCounter');
+        if (!el) return;
+        let current = 0;
+        const step = Math.max(1, Math.floor(target / 40));
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          el.textContent = current + ' из ' + max;
+        }, 30);
+      }
+
+      function launchConfetti() {
+        for (let i = 0; i < 60; i++) {
+          const c = document.createElement('div');
+          c.className = 'confetti';
+          c.style.left = Math.random() * 100 + 'vw';
+          c.style.background = ['#f44336', '#4a7df0', '#ffeb3b', '#4caf50', '#ff9800'][Math.floor(Math.random() * 5)];
+          c.style.animationDuration = (2 + Math.random() * 2) + 's';
+          c.style.animationDelay = Math.random() * 0.5 + 's';
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 4000);
+        }
+      }
+
+      // ========== ИНИЦИАЛИЗАЦИЯ ==========
+      loadDraft();
+      // Если есть сохранённые результаты — показать на экране результата
+      // Восстановление черновика для теста
+      window.addEventListener('load', () => {
+        // Показать теорию по умолчанию
+        switchScreen('theory');
+      });
+
+    })();
+  </script>
+</body>
+</html>
